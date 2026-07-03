@@ -1,0 +1,12 @@
+.voice-field {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-canvas);
+  pointer-events: none;
+}
+
+.voice-field canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

@@ -1,0 +1,697 @@
+/* ============================================================
+   HOME — paper over the live line
+   The fixed 3D canvas shows through the hero, the mid-page
+   window strip, and the CTA. Solid sections scroll over it.
+   ============================================================ */
+
+.home {
+  position: relative;
+  z-index: var(--z-content);
+}
+
+/* Solid sections must paint above the fixed canvas; the hero,
+   window strip, and CTA stay transparent so the line shows through. */
+.home section,
+.home .line-window {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============ HERO ============ */
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-top: 120px;
+  padding-bottom: var(--space-20);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: var(--space-16);
+  align-items: center;
+}
+
+.hero-copy {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-6);
+}
+
+/* Paper scrim so the copy stays crisp over the dot field */
+.hero-copy::before {
+  content: '';
+  position: absolute;
+  inset: -56px -88px;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse at 42% 50%,
+    rgba(244, 245, 241, 0.96) 0%,
+    rgba(244, 245, 241, 0.82) 52%,
+    rgba(244, 245, 241, 0) 78%
+  );
+}
+
+[data-theme='dark'] .hero-copy::before {
+  background: radial-gradient(
+    ellipse at 42% 50%,
+    rgba(13, 25, 37, 0.96) 0%,
+    rgba(13, 25, 37, 0.82) 52%,
+    rgba(13, 25, 37, 0) 78%
+  );
+}
+
+.hero-title {
+  font-size: clamp(40px, 5vw, 70px);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+/* ---- Live ticker ---- */
+
+.ticker {
+  background: var(--paper);
+  border-top: 1px solid var(--hairline);
+  overflow: hidden;
+  padding-block: 13px;
+}
+
+.ticker-track {
+  display: flex;
+  gap: var(--space-12);
+  width: max-content;
+  animation: ticker-roll 38s linear infinite;
+}
+
+.ticker:hover .ticker-track { animation-play-state: paused; }
+
+.ticker-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.ticker-item strong {
+  font-weight: 600;
+  color: var(--green-700);
+}
+
+@keyframes ticker-roll {
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+}
+
+/* ---- Live call card ---- */
+
+.hero-demo { min-width: 0; }
+
+.live-call {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  box-shadow: var(--shadow-lg);
+  max-width: 480px;
+  margin-left: auto;
+}
+
+.live-call-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.live-call-number {
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.live-call-timer {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Fixed-height window: the card never grows — the newest lines stay
+   pinned to the bottom and older ones fade out the top, like a call UI */
+.live-call-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--space-4);
+  height: 296px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 44px);
+  mask-image: linear-gradient(180deg, transparent 0, #000 44px);
+}
+
+.call-line {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  max-width: 88%;
+}
+
+.call-line--agent { align-self: flex-end; align-items: flex-end; }
+
+.call-line-who {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+}
+
+.call-line--agent .call-line-who { color: var(--green-700); }
+
+.call-line p {
+  font-size: 14.5px;
+  line-height: 1.5;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  background: var(--paper-sunken);
+  color: var(--ink);
+}
+
+.call-line--agent p {
+  background: var(--green-soft);
+  color: var(--ink-strong);
+  border-bottom-right-radius: var(--radius-xs);
+}
+
+.call-line--caller p { border-bottom-left-radius: var(--radius-xs); }
+
+.call-result {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  align-self: center;
+  flex-shrink: 0;
+  padding: 9px 16px;
+  border-radius: var(--radius-full);
+  background: var(--night);
+  color: var(--green-300);
+  font-size: 12px;
+  margin-top: var(--space-2);
+}
+
+.live-call-foot {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--hairline);
+  color: var(--green-600);
+}
+
+.eq--idle span { animation-play-state: paused; height: 25%; }
+
+/* ============ READOUT STRIP ============ */
+
+.readout {
+  position: relative;
+  background: var(--paper);
+  border-block: 1px solid var(--hairline);
+  padding-block: var(--space-10);
+}
+
+.readout-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-8);
+}
+
+.readout-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-left: var(--space-5);
+  border-left: 2px solid var(--green-600);
+}
+
+.readout-value {
+  font-size: clamp(26px, 2.6vw, 36px);
+  font-weight: 600;
+  color: var(--ink-strong);
+  line-height: 1.1;
+}
+
+.readout-label {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+}
+
+/* ============ INBOUND ============ */
+
+.inbound {
+  position: relative;
+  background: var(--paper);
+  padding-block: var(--section-y);
+}
+
+.inbound-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: var(--space-20);
+  align-items: start;
+}
+
+.inbound-intro { position: sticky; top: 120px; }
+
+.inbound-intro .eyebrow { margin-bottom: var(--space-5); }
+.inbound-intro .section-title { margin-bottom: var(--space-5); }
+
+.inbound-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--green-700);
+  transition: gap var(--dur-fast) var(--ease-out);
+}
+
+.inbound-link:hover { gap: var(--space-3); }
+
+.inbound-rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.inbound-row {
+  display: flex;
+  gap: var(--space-5);
+  padding: var(--space-6);
+}
+
+.inbound-row-icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: var(--green-soft);
+  color: var(--green-700);
+}
+
+.inbound-row-text h3 {
+  font-size: 19px;
+  font-weight: 650;
+  margin-bottom: var(--space-2);
+}
+
+.inbound-row-text p {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin-bottom: var(--space-3);
+}
+
+.inbound-sample {
+  display: inline-block;
+  font-size: 12.5px;
+  color: var(--green-700);
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  padding: 5px 10px;
+}
+
+/* ============ WINDOW STRIP (canvas shows through) ============ */
+
+.line-window {
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.line-window-label {
+  color: var(--ink-soft);
+  letter-spacing: 0.18em;
+}
+
+/* ============ OUTBOUND (night) ============ */
+
+.outbound { padding-block: var(--section-y); }
+
+.outbound-grid {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: var(--space-20);
+  align-items: center;
+}
+
+.outbound-intro .eyebrow { margin-bottom: var(--space-5); }
+.outbound-intro .section-title { margin-bottom: var(--space-5); }
+
+.outbound-sub { color: var(--night-text-soft); }
+
+.outbound-points {
+  list-style: none;
+  margin-top: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.outbound-points li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  font-size: 15px;
+  color: var(--night-text);
+}
+
+.outbound-points svg {
+  color: var(--green-300);
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+/* ---- Campaign console ---- */
+
+.outbound-console {
+  background: var(--night-raised);
+  border: 1px solid var(--night-hairline);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.console-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.console-eyebrow { color: var(--night-text-faint); display: block; margin-bottom: 4px; }
+
+.console-head strong {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 650;
+  color: var(--night-text);
+}
+
+.outbound .chip--live { background: var(--green-night); color: var(--green-300); }
+.outbound .chip--ringing { background: var(--amber-night); color: var(--amber-500); }
+.outbound .chip--idle { background: rgba(233, 240, 235, 0.08); color: var(--night-text-soft); }
+
+.console-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-block: 1px solid var(--night-hairline);
+  padding-block: var(--space-4);
+}
+
+.console-stats div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.console-stats strong {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--night-text);
+}
+
+.console-stats span {
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--night-text-faint);
+}
+
+.console-rows {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.console-row {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr auto;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--night-hairline);
+}
+
+.console-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+.console-row-id { display: flex; flex-direction: column; gap: 2px; }
+
+.console-row-id strong {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--night-text);
+}
+
+.console-row-id span {
+  font-size: 12px;
+  color: var(--night-text-faint);
+}
+
+.console-row-detail {
+  font-size: 13px;
+  color: var(--night-text-soft);
+}
+
+/* ============ HOW IT WORKS ============ */
+
+.how {
+  background: var(--paper);
+  padding-block: var(--section-y);
+}
+
+.how-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+}
+
+.how-step {
+  position: relative;
+  background: var(--paper-raised);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8) var(--space-6) var(--space-6);
+}
+
+.how-num {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green-700);
+  border: 1px solid var(--green-600);
+  border-radius: var(--radius-full);
+  padding: 4px 12px;
+  margin-bottom: var(--space-6);
+}
+
+.how-step h3 {
+  font-size: 21px;
+  font-weight: 650;
+  margin-bottom: var(--space-3);
+}
+
+.how-step p {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+
+.integrations {
+  margin-top: var(--space-16);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--hairline);
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+}
+
+.integrations-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-8);
+}
+
+.integrations-list li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  letter-spacing: 0.02em;
+}
+
+/* ============ TESTIMONIALS ============ */
+
+.voices {
+  background: var(--paper-sunken);
+  border-block: 1px solid var(--hairline);
+  padding-block: var(--section-y);
+}
+
+.voices-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+}
+
+.voice-card {
+  padding: var(--space-8) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  height: 100%;
+}
+
+.voice-card blockquote {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: -0.005em;
+  color: var(--ink-strong);
+  flex: 1;
+}
+
+.voice-card figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--hairline);
+}
+
+.voice-card figcaption strong {
+  font-size: 14.5px;
+  font-weight: 650;
+  color: var(--ink-strong);
+}
+
+.voice-card figcaption span {
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+/* ============ CTA WINDOW ============ */
+
+.cta-window {
+  padding-block: clamp(120px, 14vw, 200px);
+}
+
+.cta-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-6);
+  max-width: 620px;
+  margin-inline: auto;
+}
+
+.cta-title {
+  font-size: clamp(38px, 5.4vw, 68px);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+
+.cta-sub {
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  max-width: 46ch;
+}
+
+.cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-4);
+}
+
+.cta-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-6);
+  margin-top: var(--space-2);
+}
+
+.cta-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.cta-meta svg { color: var(--green-700); }
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 1024px) {
+  .hero-grid { gap: var(--space-10); }
+  .inbound-grid,
+  .outbound-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+  }
+  .inbound-intro { position: static; }
+  .how-steps { grid-template-columns: 1fr; }
+  .voices-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 860px) {
+  .hero {
+    min-height: auto;
+    padding-top: 130px;
+  }
+  .hero-grid { grid-template-columns: 1fr; }
+  .live-call { margin-left: 0; max-width: 560px; }
+  .live-call-body { height: 272px; }
+  .readout-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+  }
+  .console-row { grid-template-columns: 1fr auto; }
+  .console-row-detail { display: none; }
+  .line-window { height: 180px; }
+}

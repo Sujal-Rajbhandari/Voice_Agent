@@ -1,0 +1,230 @@
+/* ============ PRICING ============ */
+
+.pricing {
+  position: relative;
+  z-index: var(--z-content);
+}
+
+/* Solid sections scroll over the fixed field; hero + CTA stay open */
+.pricing section {
+  position: relative;
+  z-index: 1;
+}
+
+.plans { background: var(--paper); }
+
+/* ---- Hero: shared .page-hero styles in globals.css ---- */
+
+/* ---- Plans ---- */
+
+.plans { padding-block: var(--space-16) var(--section-y); }
+
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+  align-items: stretch;
+}
+
+.plan {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-8) var(--space-6);
+  height: 100%;
+}
+
+.plan--featured {
+  background: var(--night);
+  border-color: var(--night);
+  box-shadow: var(--shadow-lg);
+}
+
+.plan-flag {
+  position: absolute;
+  top: calc(-1 * var(--space-3));
+  left: var(--space-6);
+  background: var(--green-600);
+  color: #fff;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+}
+
+.plan-name {
+  font-size: 22px;
+  font-weight: 650;
+  margin-bottom: var(--space-2);
+}
+
+.plan--featured .plan-name { color: var(--night-text); }
+
+.plan-blurb {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-bottom: var(--space-6);
+  min-height: 42px;
+}
+
+.plan--featured .plan-blurb { color: var(--night-text-soft); }
+
+.plan-price {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.plan-price strong {
+  font-size: 44px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink-strong);
+  line-height: 1;
+}
+
+.plan--featured .plan-price strong { color: var(--night-text); }
+
+.plan-price span {
+  font-size: 13.5px;
+  color: var(--ink-faint);
+}
+
+.plan--featured .plan-price span { color: var(--night-text-faint); }
+
+.plan-minutes {
+  font-size: 12.5px;
+  color: var(--green-700);
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--hairline);
+  margin-bottom: var(--space-5);
+}
+
+.plan--featured .plan-minutes {
+  color: var(--green-300);
+  border-bottom-color: var(--night-hairline);
+}
+
+.plan-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
+  margin-bottom: var(--space-8);
+}
+
+.plan-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  font-size: 14.5px;
+  color: var(--ink);
+}
+
+.plan--featured .plan-features li { color: var(--night-text-soft); }
+
+.plan-features svg {
+  color: var(--green-600);
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.plan--featured .plan-features svg { color: var(--green-300); }
+
+.plan-cta { width: 100%; }
+
+.plan--featured .btn-green { box-shadow: 0 8px 24px rgba(13, 145, 98, 0.35); }
+
+.plans-note {
+  margin-top: var(--space-8);
+  text-align: center;
+  font-size: 13.5px;
+  color: var(--ink-faint);
+}
+
+/* ---- FAQ ---- */
+
+.pricing-faq {
+  background: var(--paper-raised);
+  border-block: 1px solid var(--hairline);
+  padding-block: var(--section-y);
+}
+
+.faq-list {
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+}
+
+.faq-item { border-bottom: 1px solid var(--hairline); }
+
+.faq-q {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  padding: var(--space-6) var(--space-2);
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink-strong);
+}
+
+.faq-chevron {
+  flex-shrink: 0;
+  color: var(--ink-faint);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.faq-item.is-open .faq-chevron {
+  transform: rotate(180deg);
+  color: var(--green-700);
+}
+
+.faq-a-wrap { overflow: hidden; }
+
+.faq-a {
+  padding: 0 var(--space-2) var(--space-6);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  max-width: 62ch;
+}
+
+/* ---- CTA ---- */
+
+.pricing-cta { padding-block: var(--section-y); }
+
+.pricing-cta-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-5);
+  max-width: 540px;
+  margin-inline: auto;
+}
+
+.pricing-cta-inner h2 {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.pricing-cta-inner p {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 960px) {
+  .plans-grid { grid-template-columns: 1fr; max-width: 480px; margin-inline: auto; }
+  .plan-blurb { min-height: 0; }
+}

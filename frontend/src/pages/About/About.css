@@ -1,0 +1,145 @@
+/* ============ ABOUT ============ */
+
+.about {
+  position: relative;
+  z-index: var(--z-content);
+}
+
+/* Solid sections scroll over the fixed field; hero + CTA stay open */
+.about section {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- Hero: shared .page-hero styles in globals.css ---- */
+
+/* ---- Story ---- */
+
+.about-story {
+  background: var(--paper);
+  border-top: 1px solid var(--hairline);
+  padding-block: var(--space-24);
+}
+
+.about-story-text {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.6vw, 34px);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: var(--ink-strong);
+  max-width: 30ch;
+}
+
+.about-story-text em {
+  font-style: normal;
+  color: var(--green-700);
+}
+
+
+/* ---- Principles ---- */
+
+.principles {
+  padding-block: var(--section-y);
+  background: var(--paper-raised);
+  border-block: 1px solid var(--hairline);
+}
+
+.principles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-10);
+}
+
+.principle-num {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green-700);
+  border: 1px solid var(--green-600);
+  border-radius: var(--radius-full);
+  padding: 4px 12px;
+  margin-bottom: var(--space-5);
+}
+
+.principle h3 {
+  font-size: 21px;
+  font-weight: 650;
+  margin-bottom: var(--space-3);
+}
+
+.principle p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+
+/* ---- Milestones ---- */
+
+.milestones { padding-block: var(--section-y); }
+
+.milestones-list {
+  display: flex;
+  flex-direction: column;
+  max-width: 720px;
+}
+
+.milestone {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: var(--space-8);
+  padding: var(--space-6) 0;
+  border-bottom: 1px solid var(--night-hairline);
+}
+
+.milestone:last-child { border-bottom: none; }
+
+.milestone-year {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--green-300);
+}
+
+.milestone p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--night-text-soft);
+}
+
+/* ---- CTA ---- */
+
+.about-cta { padding-block: var(--section-y); }
+
+.about-cta-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-5);
+  max-width: 600px;
+  margin-inline: auto;
+}
+
+.about-cta-inner h2 {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.about-cta-inner p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+
+.about-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-4);
+}
+
+@media (max-width: 860px) {
+  .principles-grid { grid-template-columns: 1fr; gap: var(--space-8); }
+  .milestone { grid-template-columns: 70px 1fr; gap: var(--space-5); }
+}

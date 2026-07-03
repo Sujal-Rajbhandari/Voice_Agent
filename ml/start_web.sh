@@ -4,7 +4,8 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-source .venv/bin/activate
+# .venv lives at the repo root, one level up from this ml/ folder.
+source ../.venv/bin/activate
 
 echo "🎙️  Starting agent worker (LiveKit dev mode)…"
 python main.py dev &
